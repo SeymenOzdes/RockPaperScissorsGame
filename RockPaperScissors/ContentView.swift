@@ -25,8 +25,8 @@ struct ContentView: View {
     @State private var images = ["RockImage", "PaperImage", "BlackScissorImage"]
     @State private var purposes = ["Win", "Lose"]
     @State private var selectedShape = Int.random(in: 0...2)
-    @State private var purposeGame = Int.random(in: 0...1) // win or lose randomness olmasını sağlıyor.
-    @State private var userChoice: Int = 4 // I'm not sure/ 4. sırada hiçbir shape yok, başlangıçta no selection yapmak için böyle yaptım.
+    @State private var purposeGame = Int.random(in: 0...1) // It ensures win or lose randomness.
+    @State private var userChoice: Int = 4 // There is no shape in the 4th row, I did this to have no selection at the beginning.
     
     
     var body: some View {
