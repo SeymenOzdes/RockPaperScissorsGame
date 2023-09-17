@@ -28,13 +28,14 @@ struct ContentView: View {
     @State private var outcomeTitle: String = ""
     @State private var appSelectedShape = Int.random(in: 0...2)
     @State private var purposeGame = Int.random(in: 0...1) // It ensures win or lose randomness.
-    @State private var userChoice: Int = 3 // There is no shape in the 3th row, I did this to have no selection at the beginning.
     @State private var showingScore: Bool = false
     @State private var alertPresented = false
     @State private var wasCorrect = false
     @State private var hasEnded = false
+    @State private var userChoice: Int?
     @State private var rounds: Int = 0
     @State private var score: Int = 0
+    
     var toWin: String {
         if shapes[appSelectedShape] == "Rock✊" { // returns the winning answer
             return "Paper🫱"
@@ -129,11 +130,13 @@ struct ContentView: View {
                 outcomeTitle = "Wrong!"
                 wasCorrect = false
                 alertPresented = true
+                score -= 1
             }
            else if user != toWin && purposeGame == 0 {
                 outcomeTitle = "Wrong!"
                 wasCorrect = false
-               alertPresented = true
+                alertPresented = true
+                score -= 1
             }
             else if user != toWin && purposeGame == 1 {
                 outcomeTitle = "Correct!"
@@ -147,14 +150,15 @@ struct ContentView: View {
         }
            
     }
+    
     func nextQuestion() {
-        shapes.shuffle()
         purposeGame = Int.random(in: 0...1)
+        appSelectedShape = Int.random(in: 0...2)
     }
     func gameOver() {
         nextQuestion()
         rounds = 0
-        score = 0 // I'm not sure
+        score = 0 
     }
 }
 
