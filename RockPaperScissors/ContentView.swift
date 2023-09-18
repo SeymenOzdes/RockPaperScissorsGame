@@ -26,13 +26,13 @@ struct ContentView: View {
     @State private var images = ["RockImage", "PaperImage", "BlackScissorImage"]
     @State private var purposes = ["Win", "Lose"]
     @State private var outcomeTitle: String = ""
+    @State private var trials: Int = 0
     @State private var appSelectedShape = Int.random(in: 0...2)
     @State private var purposeGame = Int.random(in: 0...1) // It ensures win or lose randomness.
     @State private var showingScore: Bool = false
     @State private var alertPresented = false
     @State private var wasCorrect = false
     @State private var hasEnded = false
-    @State private var userChoice: Int?
     @State private var rounds: Int = 0
     @State private var score: Int = 0
     
@@ -81,6 +81,7 @@ struct ContentView: View {
                                 Button(shapes[row]) {
                                     let userSelect = shapes[row]
                                     checkResult(user: userSelect)
+                                    trials += 1
                                 }
                                 .buttonStyle(.borderedProminent)
                             }
@@ -88,9 +89,13 @@ struct ContentView: View {
                         }
                     }
                     Section { // final section
-                        HStack {
-                            Text("Score: \(score)")
+                        VStack {
+                            Text("Trials: \(trials)")
                                 .font(.title2.bold())
+                                .foregroundColor(.gray)
+                            Text("Score: \(score)")
+                                .font(.title.bold())
+                            
                         }
                         .alert(outcomeTitle, isPresented: $alertPresented){
                             Button("Continue", action: nextQuestion)
@@ -119,7 +124,7 @@ struct ContentView: View {
     }
     func checkResult(user: String) {
         rounds += 1
-        if rounds <= 10 {
+        if rounds <= 9 {
             if user == toWin && purposeGame == 0 {
                 outcomeTitle = "Correct!"
                 wasCorrect = true
@@ -158,7 +163,8 @@ struct ContentView: View {
     func gameOver() {
         nextQuestion()
         rounds = 0
-        score = 0 
+        score = 0
+        trials = 0
     }
 }
 
